@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.glassmorphism {
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  background-color: rgba(0, 0, 0, 0.39);
+}
+
+/* This part should be in your CSS file */
+.card {
+  position: relative;
+  z-index: 5;
+  /* Adjust the rounding as needed */
+  transition: transform 1s ease-in-out;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  /* left: 0; */
+  /* right: 0; */
+  /* Adjust as needed */
+  height: 100px;
+  /* Adjust as needed */
+  bottom: 0px;
+  background: purple;
+  /* background: radial-gradient(circle, rgba(255,72,0,1) 0%, rgba(175,0,255,1) 35%, rgba(255,0,44,1) 50%, rgba(0,117,255,1) 65%, rgba(1,255,0,1) 100%);; */
+  z-index: -2;
+  /* Ensure the box is behind the card */
+  transition: all 1s ease-in-out;
+  opacity: 0;
+  /* Initially hidden */
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.heading-bg {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .7) 25%, rgba(0, 0, 0, .7) 50%, rgba(0, 0, 0, .7) 75%, rgba(0, 0, 0, 0) 100%);
+}
+
+.hover-underline::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 10px;
+  background-color: purple;
+  transition: transform 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.hover-underline:hover::after {
+  transform: scaleX(1);
+}
+
+.box {
+  display: grid;
+  place-content: center;
+  color: white;
+  text-shadow: 0 1px 0 #000;
+
+  --border-angle: 0turn;
+  /* For animation */
+  --main-bg: conic-gradient(from var(--border-angle),
+      rgb(0, 0, 0),
+      rgb(0, 0, 0) 5%,
+      rgb(0, 0, 0) 60%,
+      rgb(0, 0, 0) 95%);
+
+  border: solid 3px transparent;
+  --gradient-border: conic-gradient(from var(--border-angle),
+      transparent 25%,
+      #08f,
+      #f03 99%,
+      transparent);
+
+  background:
+    var(--main-bg) padding-box,
+    var(--gradient-border) border-box,
+    var(--main-bg) border-box;
+
+  background-position: center center;
+  animation: bg-spin 3s linear infinite;
+}
+
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+.box:hover {
+  animation-play-state: paused;
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
