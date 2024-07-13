@@ -57,7 +57,7 @@ const Page = () => {
                 reader.onload = async () => {
                     const base64Image = (reader.result as string)?.split(',')[1] as string;
                     // console.log(typeof base64Image === 'string')
-                    await createPost(title, description, URL.createObjectURL(image) as string)
+                    await createPost(title, description, 'ssss')
 
                     // Reset the form data after processing
                     setData({

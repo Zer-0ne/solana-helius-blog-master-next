@@ -30,7 +30,7 @@ pub mod blog_sol {
         Ok(())
     }
 
-    pub fn create_post(ctx: Context<CreatePost>, title: String, content: String,image: String) -> ProgramResult {
+    pub fn create_post(ctx: Context<CreatePost>, title: String, content: String, image: String) -> ProgramResult {
         let blog_account = &mut ctx.accounts.blog_account;
         let post_account = &mut ctx.accounts.post_account;
         let user_account = &mut ctx.accounts.user_account;
@@ -68,7 +68,7 @@ pub struct InitBlog<'info> {
 
 #[derive(Accounts)]
 pub struct CreatePost<'info> {
-    #[account(init, payer = authority, space = 8 + 50 + 500 + 500 + 32 + 32 + 32 + 32 + 32 + 32)]
+    #[account(init, payer = authority, space = 8 + 50 + 500 + 11500 + 32 + 32 + 32 + 32 + 32 + 32)]
     pub post_account: Account<'info, PostState>,
     #[account(mut, has_one = authority)]
     pub user_account: Account<'info, UserState>,

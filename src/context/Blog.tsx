@@ -119,7 +119,6 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     if (program && publicKey) {
       setTransactionPending(true);
       try {
-        console.log(image)
         const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
         const lastPostIdArray = typeof lastPostId !== 'undefined' ? [lastPostId] : [0];
         const [postPda] = findProgramAddressSync(
