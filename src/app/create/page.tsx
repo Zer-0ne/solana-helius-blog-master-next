@@ -19,7 +19,7 @@ const Page = () => {
     const [data, setData] = useState<{
         title: string;
         description: string;
-        image: File | null;
+        image: string | null;
     }>({
         title: '',
         description: '',
@@ -29,49 +29,42 @@ const Page = () => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const target = event.target as HTMLInputElement | HTMLTextAreaElement;
 
-        if (target.type === 'file') {
-            const file = (target as HTMLInputElement).files?.[0];
-            if (file) {
-                console.log('Selected file:', file);
-                setData((prevData) => ({
-                    ...prevData,
-                    image: file
-                }));
-            }
-        } else {
-            const { name, value } = target;
-            setData((prevData) => ({
+        // if (target.type === 'file') {
+        //     const file = (target as HTMLInputElement).files?.[0];
+        //     if (file) {
+        //         console.log('Selected file:', file);
+        //         setData((prevData) => ({
+        //             ...prevData,
+        //             image: file
+        //         }));
+        //     }
+        // } else {
+        const { name, value } = target;
+
+        setData((prevData) => {
+            return {
                 ...prevData,
                 [name]: value
-            }));
-        }
+            };
+        });
+        // }
     };
+
 
     const handleSubmit = async () => {
         try {
             const { title, description, image } = data;
 
+
             if (image) {
-                const reader = new FileReader();
-
-                reader.onload = async () => {
-                    const base64Image = (reader.result as string)?.split(',')[1] as string;
-                    // console.log(typeof base64Image === 'string')
-                    await createPost(title, description, 'ssss')
-
-                    // Reset the form data after processing
-                    setData({
-                        title: '',
-                        description: '',
-                        image: null
-                    });
-
-                };
-
-                reader.readAsDataURL(image);
+                if (!image.includes('unsplash')) {
+                    alert('Only Image URL from Unsplash is allowed');
+                    return
+                }
+                await createPost(title, description, image as string)
             } else {
                 // Handle case where no image is selected
-                console.log('No image selected');
+                alert('image is not provided');
             }
         } catch (error) {
             console.error(error);
@@ -85,7 +78,7 @@ const Page = () => {
             <div className='mt-12 mx-10'>
                 <h2 className={`text-3xl font-medium ${pressfont.className}`}>Create Post</h2>
                 <div className='flex flex-col flex-1 gap-3 flex-wrap justify-center mx-[auto]'>
-                    {
+                    {/* {
                         data?.image ? <>
                             <div
                                 className='flex flex-1 justify-between  mt-5 gap-2'
@@ -134,13 +127,21 @@ const Page = () => {
                         onChange={handleChange}
                         style={{ display: 'none' }}
                         accept="image/*" // Optional: restrict file types to images only
-                    />
+                    /> */}
                     <div className='flex flex-1 flex-col gap-1 mt-3'>
+                        <label htmlFor="image" className='ml-1  mb-1 capitalize'>Image Link</label>
+                        <input
+                            onChange={handleChange}
+                            placeholder='only unsplash link'
+                            type="text"
+                            className='p-2 rounded-lg mb-3 border-2 border-[#ffffff6d] bg-black'
+                            name='image'
+                        />
                         <label htmlFor="title" className='ml-1 mb-1 capitalize'>Title</label>
                         <input
                             onChange={handleChange}
                             type="text"
-                            className='p-2 rounded-lg border-2 border-[#ffffff6d] bg-black'
+                            className='p-2 rounded-lg mb-3 border-2 border-[#ffffff6d] bg-black'
                             name='title'
                         />
                         <label htmlFor="description" className='ml-1 mb-1 capitalize'>Description</label>

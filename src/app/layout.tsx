@@ -22,7 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const endpoint = "https://devnet.helius-rpc.com/?api-key=e3bc982c-d95f-48b5-b388-f6fe1289d2d8"
+  
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(

@@ -109,7 +109,7 @@ const BlogsContainer = () => {
                             key={index}
                         >
                             <div
-                                className='max-h-[400px] h-[400px] transition-all text-wrap max-w-[300px] overflow-hidden p-2 duration-1000 ease-in-out hover:scale-105 flex-1 relative z-[2] glassmorphism rounded-lg border-[1px] border-[#ffffff44] gap-3 flex flex-col'
+                                className='max-h-[400px] h-[400px] transition-all text-wrap max-w-[300px] overflow-hidden p-2 duration-1000 ease-in-out hover:scale-105 flex-1 relative z-[2] glassmorphism rounded-lg border-[1px] border-[#ffffff30] hover:border-[#80008030] gap-3 flex flex-col'
                             >
                                 <Image
                                     width={200}

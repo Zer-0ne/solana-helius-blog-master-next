@@ -22,7 +22,7 @@ interface BlogContextType {
   setShowModal: (value: boolean) => void;
 }
 
-const BlogContext = React.createContext<BlogContextType>({
+const BlogContext = createContext<BlogContextType>({
   user: null,
   posts: [],
   initialized: false,
@@ -31,9 +31,6 @@ const BlogContext = React.createContext<BlogContextType>({
   showModal: false,
   setShowModal: () => { },
 });
-
-
-// const BlogContext = createContext<BlogContextType | undefined>(undefined);
 
 export const useBlog = (): BlogContextType => {
   const context = useContext(BlogContext);
@@ -60,6 +57,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
   const { publicKey } = useWallet();
 
   const program = useMemo(() => {
+    console.log(anchorWallet)
     if (anchorWallet) {
       const provider = new anchor.AnchorProvider(connection, anchorWallet, anchor.AnchorProvider.defaultOptions());
       return new anchor.Program(idl as anchor.Idl, PROGRAM_KEY, provider);
@@ -69,15 +67,17 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const start = async () => {
+      // console.log(publicKey,program)
       if (program && publicKey) {
         try {
           const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
           const userAccount = await program.account.userAccount.fetch(userPda);
+          console.log('hi', userAccount)
           if (userAccount) {
             setInitialized(true);
             setUser(userAccount);
             setLastPostId(userAccount.lastPostId);
-            const postAccounts = await program.account.postAccount.all(publicKey.toString());
+            const postAccounts = await program.account.postAccount.all(publicKey.toString() as any);
             setPosts(postAccounts);
           }
         } catch (error) {
@@ -107,6 +107,8 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
           })
           .rpc();
         setInitialized(true);
+        const userAccount = await program.account.userAccount.fetch(userPda);
+        console.log('User Account:', userAccount);
       } catch (error) {
         console.error(error);
       } finally {
@@ -129,9 +131,17 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
           ],
           program.programId
         );
-
         await program.methods
-          .createPost(title, content, image)
+          .createPost(title, content, image, new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: 'UTC'
+          }) as string)
           .accounts({
             userAccount: userPda,
             postAccount: postPda,

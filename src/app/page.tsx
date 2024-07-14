@@ -26,10 +26,11 @@ export default function Home() {
   const onConnect = async () => {
     // setConnecting(true)
     select(PhantomWalletName);
-    user && await initUser()
+    // console.log(await initUser())
+    await initUser()
     // initialized is for true connection
   }
-  console.log(user)
+  console.log(user,initialized)
   return (
     <>
       <main

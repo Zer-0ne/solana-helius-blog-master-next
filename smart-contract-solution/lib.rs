@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::entrypoint::ProgramResult;
 
-declare_id!("8mxvpM2XECH8hCXp8mjKwbq1DUYWA7ZX48wHKUYac3xg");
+declare_id!("7cmPL8TRCGwMtty5FufVYXZQVxF99tJZtMMzT6eBb2NS");
 
 #[program]
 pub mod blog_sol {
@@ -30,11 +30,12 @@ pub mod blog_sol {
         Ok(())
     }
 
-    pub fn create_post(ctx: Context<CreatePost>, title: String, content: String, image: String) -> ProgramResult {
+    pub fn create_post(ctx: Context<CreatePost>, title: String, content: String,image:String) -> ProgramResult {
         let blog_account = &mut ctx.accounts.blog_account;
         let post_account = &mut ctx.accounts.post_account;
         let user_account = &mut ctx.accounts.user_account;
         let authority = &mut ctx.accounts.authority;
+        msg!("Image: {}", image);
 
         post_account.title = title;
         post_account.content = content;
@@ -68,7 +69,7 @@ pub struct InitBlog<'info> {
 
 #[derive(Accounts)]
 pub struct CreatePost<'info> {
-    #[account(init, payer = authority, space = 8 + 50 + 500 + 11500 + 32 + 32 + 32 + 32 + 32 + 32)]
+    #[account(init, payer = authority, space = 8 + 50 + 500 + 500 + 32 + 32 + 32 + 32 + 32 + 32)]
     pub post_account: Account<'info, PostState>,
     #[account(mut, has_one = authority)]
     pub user_account: Account<'info, UserState>,
