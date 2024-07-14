@@ -4,7 +4,7 @@ import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 export async function initBlog(program, blogKey, walletKey, setBlogKey) {
   try {
     const blog = await program.account.blogState.fetch(blogKey);
-    console.log(blog);
+    // console.log(blog);
     return blog;
   } catch {
     const blogAccount = Keypair.generate();

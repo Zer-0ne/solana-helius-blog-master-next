@@ -72,7 +72,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
         try {
           const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
           const userAccount = await program.account.userAccount.fetch(userPda);
-          console.log('hi', userAccount)
+          // console.log('hi', userAccount)
           if (userAccount) {
             setInitialized(true);
             setUser(userAccount);

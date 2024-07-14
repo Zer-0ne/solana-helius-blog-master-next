@@ -12,7 +12,6 @@ const plaster = Plaster({
 
 const Navbar = () => {
     const { user, posts, initialized, initUser, createPost, showModal, setShowModal } = useBlog()
-    console.log(user)
 
     return (
         <header
