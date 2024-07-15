@@ -16,6 +16,7 @@ interface BlogContextType {
   user: any;
   posts: any[];
   initialized: boolean;
+  transactionPending: boolean;
   initUser: () => Promise<void>;
   createPost: (title: string, content: string, image: string) => Promise<void>;
   showModal: boolean;
@@ -25,6 +26,7 @@ interface BlogContextType {
 const BlogContext = createContext<BlogContextType>({
   user: null,
   posts: [],
+  transactionPending: false,
   initialized: false,
   initUser: async () => { },
   createPost: async () => { },
@@ -57,7 +59,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
   const { publicKey } = useWallet();
 
   const program = useMemo(() => {
-    console.log(anchorWallet)
+    // console.log(anchorWallet)
     if (anchorWallet) {
       const provider = new anchor.AnchorProvider(connection, anchorWallet, anchor.AnchorProvider.defaultOptions());
       return new anchor.Program(idl as anchor.Idl, PROGRAM_KEY, provider);
@@ -108,7 +110,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
           .rpc();
         setInitialized(true);
         const userAccount = await program.account.userAccount.fetch(userPda);
-        console.log('User Account:', userAccount);
+        // console.log('User Account:', userAccount);
       } catch (error) {
         console.error(error);
       } finally {
@@ -163,6 +165,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
       value={{
         user,
         posts,
+        transactionPending,
         initialized,
         initUser,
         createPost,

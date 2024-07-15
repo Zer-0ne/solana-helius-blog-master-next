@@ -4,6 +4,7 @@ import { Plaster, Quando, Press_Start_2P } from 'next/font/google'
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PhantomWalletName } from "@solana/wallet-adapter-phantom";
 import { useBlog } from "@/context/Blog";
+import { useRouter } from "next/navigation";
 
 const plaster = Plaster({
   subsets: ['latin'],
@@ -19,18 +20,18 @@ const pressfont = Press_Start_2P({
 })
 
 export default function Home() {
-  const btnText = 'initialize user'
-  const { connected, select } = useWallet()
-  const { user, posts, initialized, initUser, createPost, showModal, setShowModal } = useBlog()
+  const { select } = useWallet()
+  const router = useRouter()
+  const { user, initialized, initUser } = useBlog()
 
+  const btnText = user ? 'explore blogs' : 'initialize user'
   const onConnect = async () => {
-    // setConnecting(true)
-    select(PhantomWalletName);
-    // console.log(await initUser())
-    await initUser()
-    // initialized is for true connection
+    if (!user && !initialized) {
+      select(PhantomWalletName);
+      !user && await initUser();
+    }
+    else router.push('/blogs')
   }
-  console.log(user,initialized)
   return (
     <>
       <main
@@ -39,13 +40,20 @@ export default function Home() {
         <div
           className="border-[1px] border-black max-w-[100%] relative after:absolute after:w-[5px] after:bg-black after:top-0 after:bottom-0 after:right-0 before:absolute before:w-[5px] before:bg-black before:top-0 before:bottom-0 before:left-0 "
         >
-          <Image
-            width={700}
-            height={700}
-            src="/solana.gif"
-            unoptimized
-            alt="Solana"
-          />
+          <div
+            className="w-[100%] flex justify-center items-center h-[100%] overflow-hidden"
+          >
+
+            <Image
+              width={700}
+              height={700}
+              src="/solana.gif"
+              priority
+              unoptimized
+              className="sm:max-w-[150%] max-w-[150%] lg:max-w-[100%] md:max-w-[100%]"
+              alt="Solana"
+            />
+          </div>
 
 
           <div

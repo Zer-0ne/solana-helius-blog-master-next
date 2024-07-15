@@ -16,6 +16,50 @@
   transition: transform 1s ease-in-out;
 }
 
+@keyframes dots {
+  0% {
+    content: '';
+  }
+  10% {
+    content: 'L';
+  }
+  20% {
+    content: 'Lo';
+  }
+  30% {
+    content: 'Loa';
+  }
+  40% {
+    content: 'Load';
+  }
+  50% {
+    content: 'Loadi';
+  }
+  60% {
+    content: 'Loadin';
+  }
+  70% {
+    content: 'Loading';
+  }
+  80% {
+    content: 'Loading.';
+  }
+  90% {
+    content: 'Loading..';
+  }
+  100% {
+    content: 'Loading...';
+  }
+}
+
+.dots::after {
+  content: '';
+  display: inline-block;
+  /* width: 0.5em; */
+  animation: dots 2s steps(4, end) infinite;
+}
+
+
 .card::after {
   content: '';
   position: absolute;

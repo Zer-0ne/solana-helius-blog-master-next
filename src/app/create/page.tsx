@@ -15,7 +15,7 @@ const pressfont = Press_Start_2P({
 const Page = () => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const router = useRouter();
-    const { user, posts, initialized, initUser, createPost, } = useBlog()
+    const { user, posts, initialized, transactionPending, createPost, } = useBlog()
     const [data, setData] = useState<{
         title: string;
         description: string;
@@ -28,17 +28,6 @@ const Page = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-
-        // if (target.type === 'file') {
-        //     const file = (target as HTMLInputElement).files?.[0];
-        //     if (file) {
-        //         console.log('Selected file:', file);
-        //         setData((prevData) => ({
-        //             ...prevData,
-        //             image: file
-        //         }));
-        //     }
-        // } else {
         const { name, value } = target;
 
         setData((prevData) => {
@@ -47,7 +36,6 @@ const Page = () => {
                 [name]: value
             };
         });
-        // }
     };
 
 
@@ -57,19 +45,18 @@ const Page = () => {
 
 
             if (image) {
-                if (!image.includes('unsplash')) {
-                    alert('Only Image URL from Unsplash is allowed');
-                    return
-                }
+                // if (!image.includes('unsplash')) {
+                //     alert('Only Image URL from Unsplash is allowed');
+                //     return
+                // }
                 await createPost(title, description, image as string)
             } else {
-                // Handle case where no image is selected
                 alert('image is not provided');
             }
         } catch (error) {
             console.error(error);
         } finally {
-            // router.push('/blogs');
+            router.push('/blogs');
         }
     };
 
@@ -78,61 +65,10 @@ const Page = () => {
             <div className='mt-12 mx-10'>
                 <h2 className={`text-3xl font-medium ${pressfont.className}`}>Create Post</h2>
                 <div className='flex flex-col flex-1 gap-3 flex-wrap justify-center mx-[auto]'>
-                    {/* {
-                        data?.image ? <>
-                            <div
-                                className='flex flex-1 justify-between  mt-5 gap-2'
-                            >
-                                <div
-                                    className='flex-1 flex gap-2'
-                                >
-
-                                    <Image
-                                        width={100}
-                                        height={100}
-                                        src={URL.createObjectURL(data.image)}
-                                        className='rounded-lg'
-                                        alt={data.image.name} />
-                                    <div
-                                        className='flex gap-2 flex-1 flex-col py-1'
-                                    >
-                                        <h2
-                                            className='text-2xl font-medium'
-                                        >{data.image.name}</h2>
-                                        <p
-                                            className='text-[15px] opacity-50'
-                                        >Size: {data.image.size}</p>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => setData((prevData) => ({
-                                        ...prevData,
-                                        image: null
-                                    }))}
-                                >X</button>
-                            </div>
-                        </> :
-                            <div
-                                onClick={() => {
-                                    fileInputRef?.current?.click();
-                                }}
-                                className='mt-5 capitalize glassmorphism cursor-pointer text-[#ffffff6d] hover:text-white border-[#ffffff6d] hover:border-white transition-all duration-1000 ease-in-out p-4 h-[100px] justify-center items-center flex border-2 border-dotted rounded-lg'
-                            >
-                                upload image
-                            </div>
-                    }
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleChange}
-                        style={{ display: 'none' }}
-                        accept="image/*" // Optional: restrict file types to images only
-                    /> */}
                     <div className='flex flex-1 flex-col gap-1 mt-3'>
                         <label htmlFor="image" className='ml-1  mb-1 capitalize'>Image Link</label>
                         <input
                             onChange={handleChange}
-                            placeholder='only unsplash link'
                             type="text"
                             className='p-2 rounded-lg mb-3 border-2 border-[#ffffff6d] bg-black'
                             name='image'
@@ -153,9 +89,12 @@ const Page = () => {
                         />
                         <button
                             onClick={handleSubmit}
+                            disabled={transactionPending}
                             className='mt-2 bg-[green] p-3 rounded-lg'
                         >
-                            Submit
+                            {transactionPending
+                                ? 'Please wait...' : 'Submit'
+                            }
                         </button>
                     </div>
                 </div>

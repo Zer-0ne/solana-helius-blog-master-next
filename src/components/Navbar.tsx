@@ -11,11 +11,11 @@ const plaster = Plaster({
 })
 
 const Navbar = () => {
-    const { user, posts, initialized, initUser, createPost, showModal, setShowModal } = useBlog()
+    const { user } = useBlog()
 
     return (
         <header
-            className='glassmorphism z-10 sticky top-0 py-[.8rem] left-2 right-2 rounded-lg flex flex-1 gap-3 justify-between items-center px-5 bg-[purple]'
+            className='glassmorphism border-b-[#ffffff30] border-b-[1px] z-10 sticky top-0 py-[.8rem] left-2 right-2 mb-5 flex flex-1 gap-3 justify-between items-center px-5 bg-[purple]'
         >
             <div
                 className={`text-[25px] ${plaster.className}`}

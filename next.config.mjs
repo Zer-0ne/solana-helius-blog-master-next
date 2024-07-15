@@ -2,27 +2,51 @@
 const nextConfig = {
     images: {
       remotePatterns: [
+        // {
+        //   protocol: 'https',
+        //   hostname: 'clusterprotocol.ai',
+        //   port: '',
+        //   pathname: '/assets/**',
+        // },
+        // {
+        //   protocol: 'https',
+        //   hostname: 'cdn.dribbble.com',
+        //   port: '',
+        //   pathname: '/**',
+        // },
+        // {
+        //   protocol: 'https',
+        //   hostname: 'gravatar.com',
+        //   port: '',
+        //   pathname: '/**',
+        // },
+        // {
+        //   protocol: 'https',
+        //   hostname: '*.unsplash.com',
+        //   port: '',
+        //   pathname: '/**',
+        // },
         {
           protocol: 'https',
-          hostname: 'clusterprotocol.ai',
+          hostname: '*.*.*',
           port: '',
-          pathname: '/assets/**',
+          pathname: '/**',
         },
         {
-          protocol: 'https',
-          hostname: 'cdn.dribbble.com',
+          protocol: 'http',
+          hostname: '*.*.*',
+          port: '',
+          pathname: '/**',
+        },
+        {
+          protocol: 'http',
+          hostname: '*.*',
           port: '',
           pathname: '/**',
         },
         {
           protocol: 'https',
-          hostname: 'gravatar.com',
-          port: '',
-          pathname: '/**',
-        },
-        {
-          protocol: 'https',
-          hostname: '*.unsplash.com',
+          hostname: '*.*',
           port: '',
           pathname: '/**',
         },
